@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { usePatients } from "./hooks/usePatients";
-import { PatientCard } from "./components/patientCard/patientCard";
+import { PatientCard } from "./components/patientCard/PatientCard";
+import { SkeletonCard } from "./components/Skeleton/SkeletonCard";
 
 function App() {
-  const { patients, loading, error, loadMore, refresh, hasMore } = usePatients();
+  const { patients, loading, error, loadMore, refresh, hasMore } =
+    usePatients();
 
   useEffect(() => {
     refresh();
@@ -16,6 +18,8 @@ function App() {
         {patients.map((patient) => (
           <PatientCard key={patient.id} patient={patient} />
         ))}
+        {loading &&
+          Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
       </div>
       {loading && <p className="text-center mt-4 text-gray-400">Cargando...</p>}
       {error && <p className="text-center mt-4 text-red-400">{error}</p>}

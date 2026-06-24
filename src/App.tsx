@@ -1,24 +1,65 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePatients } from "./hooks/usePatients";
-import { PatientCard } from "./components/patientCard/PatientCard";
+import { PatientCard } from "./components/PatientCard/PatientCard";
 import { SkeletonCard } from "./components/Skeleton/SkeletonCard";
 import { useFavorites } from "./hooks/useFavorites";
+import { PatientModal } from "./components/PatientModal/PatientModal";
+import type { Patient } from "./types/patient";
 
 function App() {
-  const { patients, loading, error, loadMore, refresh, hasMore } =
-    usePatients();
+  const {
+    patients,
+    loading,
+    error,
+    loadMore,
+    hasMore,
+    refresh,
+    addPatient,
+    updatePatient,
+  } = usePatients();
 
+  const [modalOpen, setModalOpen] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
   useEffect(() => {
     refresh();
   }, []);
 
+  const handleAdd = () => {
+    setSelectedPatient(null);
+    setModalOpen(true);
+  };
+
+  const handleEdit = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setModalOpen(true);
+  };
+
+  const handleSave = (data: Omit<Patient, "id" | "createdAt">) => {
+    if (selectedPatient) {
+      updatePatient({ ...selectedPatient, ...data });
+    } else {
+      addPatient(data);
+    }
+    setModalOpen(false);
+  };
+
   const favoritePatients = patients.filter((p) => isFavorite(p.id));
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Patient Records</h1>
+        <button
+          onClick={handleAdd}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors"
+        >
+          + Add Patient
+        </button>
+      </div>
+
       {/* Favorites section */}
       {favoritePatients.length > 0 && (
         <div className="mb-8">
@@ -32,6 +73,7 @@ function App() {
                 patient={patient}
                 isFavorite={isFavorite(patient.id)}
                 onToggleFavorite={toggleFavorite}
+                onEdit={handleEdit}
               />
             ))}
           </div>
@@ -47,6 +89,7 @@ function App() {
             patient={patient}
             isFavorite={isFavorite(patient.id)}
             onToggleFavorite={toggleFavorite}
+            onEdit={handleEdit}
           />
         ))}
         {loading &&
@@ -64,6 +107,12 @@ function App() {
           </button>
         </div>
       )}
+      <PatientModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSave={handleSave}
+        patient={selectedPatient}
+      />
     </div>
   );
 }

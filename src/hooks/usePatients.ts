@@ -27,7 +27,8 @@ export function usePatients() {
 
       setState((prev) => ({
         ...prev,
-        patients: pageToLoad === 1 ? data : [...prev.patients, ...data],
+        patients: pageToLoad === 1 ? data
+          : [...prev.patients, ...data.filter(p => !prev.patients.some(existing => existing.id === p.id))],
         loading: false,
         hasMore: data.length === 10,
         page: pageToLoad,

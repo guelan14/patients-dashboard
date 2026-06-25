@@ -5,6 +5,8 @@ import { SkeletonCard } from "./components/Skeleton/SkeletonCard";
 import { useFavorites } from "./hooks/useFavorites";
 import { PatientModal } from "./components/PatientModal/PatientModal";
 import type { Patient } from "./types/patient";
+import { useToast } from "./hooks/useTotast";
+import { Toast } from "./components/Toast/Toast";
 
 function App() {
   const {
@@ -17,6 +19,8 @@ function App() {
     addPatient,
     updatePatient,
   } = usePatients();
+
+  const { toast, showToast, hideToast } = useToast()
 
   const [modalOpen, setModalOpen] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -37,12 +41,18 @@ function App() {
   };
 
   const handleSave = (data: Omit<Patient, "id" | "createdAt">) => {
+    try{
     if (selectedPatient) {
       updatePatient({ ...selectedPatient, ...data });
+      showToast('Patient updated successfully', 'success');
     } else {
       addPatient(data);
+      showToast('Patient added successfully', 'success');
     }
     setModalOpen(false);
+    } catch (error) {
+      showToast('An error occurred while saving the patient', 'error');
+    }
   };
 
   const favoritePatients = patients.filter((p) => isFavorite(p.id));
@@ -113,6 +123,13 @@ function App() {
         onSave={handleSave}
         patient={selectedPatient}
       />
+      {toast.visible && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+        />
+      )}
     </div>
   );
 }

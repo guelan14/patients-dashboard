@@ -7,6 +7,7 @@ import { PatientModal } from "./components/PatientModal/PatientModal";
 import type { Patient } from "./types/patient";
 import { useToast } from "./hooks/useTotast";
 import { Toast } from "./components/Toast/Toast";
+import { useInfiniteScroll } from "./hooks/useInfiniteScroll";
 
 function App() {
   const {
@@ -19,6 +20,12 @@ function App() {
     addPatient,
     updatePatient,
   } = usePatients();
+
+  const { triggerRef } = useInfiniteScroll({
+    onLoadMore: loadMore,
+    hasMore,
+    loading,
+  })
 
   const { toast, showToast, hideToast } = useToast()
 
@@ -41,15 +48,15 @@ function App() {
   };
 
   const handleSave = (data: Omit<Patient, "id" | "createdAt">) => {
-    try{
-    if (selectedPatient) {
-      updatePatient({ ...selectedPatient, ...data });
-      showToast('Patient updated successfully', 'success');
-    } else {
-      addPatient(data);
-      showToast('Patient added successfully', 'success');
-    }
-    setModalOpen(false);
+    try {
+      if (selectedPatient) {
+        updatePatient({ ...selectedPatient, ...data });
+        showToast('Patient updated successfully', 'success');
+      } else {
+        addPatient(data);
+        showToast('Patient added successfully', 'success');
+      }
+      setModalOpen(false);
     } catch (error) {
       showToast('An error occurred while saving the patient', 'error');
     }
@@ -109,12 +116,7 @@ function App() {
       {error && <p className="text-center mt-4 text-red-400">{error}</p>}
       {hasMore && !loading && (
         <div className="flex justify-center mt-6">
-          <button
-            onClick={loadMore}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-          >
-            Cargar más
-          </button>
+          <div ref={triggerRef} className="h-4" />
         </div>
       )}
       <PatientModal

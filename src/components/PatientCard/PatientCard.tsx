@@ -12,6 +12,7 @@ export function PatientCard({
   patient,
   isFavorite,
   onToggleFavorite,
+  onEdit,
 }: PatientCardProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -38,7 +39,7 @@ export function PatientCard({
         </div>
         {/* Edit button */}
         <button
-          onClick={() => onEdit(patient)}
+          onClick={() => onEdit?.(patient)}
           className="text-gray-400 hover:text-gray-600 transition-colors"
         >
           <svg

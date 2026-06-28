@@ -5,7 +5,7 @@ import { SkeletonCard } from "./components/Skeleton/SkeletonCard";
 import { useFavorites } from "./hooks/useFavorites";
 import { PatientModal } from "./components/PatientModal/PatientModal";
 import type { Patient } from "./types/patient";
-import { useToast } from "./hooks/useTotast";
+import { useToast } from "./hooks/useToast";
 import { Toast } from "./components/Toast/Toast";
 import { useInfiniteScroll } from "./hooks/useInfiniteScroll";
 
@@ -98,7 +98,7 @@ function App() {
       )}
 
       {/* All patients */}
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Patient Records</h1>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">All Patients</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {patients.map((patient) => (
           <PatientCard

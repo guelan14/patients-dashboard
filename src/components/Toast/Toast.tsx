@@ -13,14 +13,12 @@ export function Toast({ message, type, onClose }: ToastProps) {
   }, [onClose])
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white text-sm transition-all duration-300
-      ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
-    >
-      <span>
+    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-full shadow-lg bg-[#111111] text-white text-sm transition-all duration-300 border border-gray-800">
+      <span className={type === 'success' ? 'text-green-400' : 'text-red-400'}>
         {type === 'success' ? '✓' : '✕'}
       </span>
-      <span>{message}</span>
-      <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100">
+      <span className="font-medium tracking-wide">{message}</span>
+      <button onClick={onClose} className="ml-2 text-gray-400 hover:text-white transition-colors">
         ✕
       </button>
     </div>

@@ -3,6 +3,8 @@ import type { Patient } from '../../types/patient'
 import { FormField } from '../ui/FormField'
 import { validatePatient } from '../../utils/validatePatient'
 import { Button } from '../ui/Button'
+import { Input } from '../ui/Input'
+import { IconButton } from '../ui/IconButton'
 
 interface PatientModalProps {
   isOpen: boolean
@@ -54,21 +56,22 @@ export function PatientModal({ isOpen, onClose, onSave, patient }: PatientModalP
           <h2 className="text-xl font-bold tracking-tight text-black">
             {patient ? 'Edit Patient' : 'Add Patient'}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-black transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer">
+          <IconButton onClick={onClose} aria-label="Close" className="text-gray-400 hover:text-black">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </button>
+          </IconButton>
         </div>
 
         {/* Form */}
         <div className="space-y-4">
           <FormField label="Name" error={errors.name} required>
-            <input
+            <Input
               type="text"
               value={form.name}
               onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
-              className={`mt-1 w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors ${errors.name ? 'border-red-400 focus:border-red-500 focus:ring-red-500' : 'border-gray-200'}`}
+              hasError={!!errors.name}
+              className="mt-1"
               placeholder="Patient name"
             />
           </FormField>
@@ -84,21 +87,22 @@ export function PatientModal({ isOpen, onClose, onSave, patient }: PatientModalP
           </FormField>
 
           <FormField label="Website" error={errors.website}>
-            <input
+            <Input
               type="text"
               value={form.website}
               onChange={e => setForm(prev => ({ ...prev, website: e.target.value }))}
-              className={`mt-1 w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors ${errors.website ? 'border-red-400 focus:border-red-500 focus:ring-red-500' : 'border-gray-200'}`}
+              hasError={!!errors.website}
+              className="mt-1"
               placeholder="https://example.com"
             />
           </FormField>
 
           <FormField label="Avatar URL">
-            <input
+            <Input
               type="text"
               value={form.avatar}
               onChange={e => setForm(prev => ({ ...prev, avatar: e.target.value }))}
-              className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors"
+              className="mt-1"
               placeholder="https://example.com/avatar.jpg"
             />
           </FormField>

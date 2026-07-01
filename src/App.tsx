@@ -9,6 +9,7 @@ import { Toast } from "./components/Toast/Toast";
 import { useInfiniteScroll } from "./hooks/useInfiniteScroll";
 import { PatientGrid } from "./components/PatientGrid/PatientGrid";
 import { Button } from './components/ui/Button';
+import { Input } from './components/ui/Input';
 
 
 
@@ -98,12 +99,12 @@ function App() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <input
+            <Input
               type="text"
               placeholder="Filter patients by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-black placeholder-gray-400 outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors shadow-sm"
+              className="pl-9 pr-4 shadow-sm"
             />
           </div>
 

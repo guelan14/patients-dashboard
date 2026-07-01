@@ -8,12 +8,36 @@ const api = axios.create({
 export async function fetchPatients(
   page: number = 1,
   limit: number = 10,
+  search: string = ""
 ): Promise<Patient[]> {
-  const response = await api.get("/users", {
-    params: { page, limit },
-  });
+  const params: Record<string, string | number> = { page, limit };
+  if (search) {
+    params.name = search;
+  }
+  
+  try {
+    const response = await api.get("/users", { params });
+    const parsed = PatientsArraySchema.safeParse(response.data);
+    if (!parsed.success) {
+      console.error("Error de validación:", parsed.error.issues);
+      throw new Error("La respuesta de la API no tiene el formato esperado");
+    }
+    return parsed.data;
+  } catch (error: any) {
+    // MockAPI returns 404 when a search yields no results.
+    if (error.response && error.response.status === 404 && search) {
+      return [];
+    }
+    throw error;
+  }
+}
 
-  const parsed = PatientsArraySchema.safeParse(response.data);
+
+export async function fetchPatientById(id: string): Promise<Patient> {
+  const response = await api.get(`/users/${id}`);
+  
+  const { PatientSchema } = await import('../types/patient');
+  const parsed = PatientSchema.safeParse(response.data);
 
   if (!parsed.success) {
     console.error("Error de validación:", parsed.error.issues);

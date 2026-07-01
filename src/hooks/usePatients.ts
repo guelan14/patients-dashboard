@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { fetchPatients } from "../services/api";
 import type { Patient } from "../types/patient";
 
@@ -10,7 +10,7 @@ interface UsePatientsState {
   page: number;
 }
 
-export function usePatients() {
+export function usePatients(searchTerm: string = "") {
   const [state, setState] = useState<UsePatientsState>({
     patients: [],
     loading: false,
@@ -19,11 +19,11 @@ export function usePatients() {
     page: 1,
   });
 
-  const loadPatients = useCallback(async (pageToLoad: number) => {
+  const loadPatients = useCallback(async (pageToLoad: number, search: string) => {
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
-      const data = await fetchPatients(pageToLoad, 10);
+      const data = await fetchPatients(pageToLoad, 10, search);
 
       setState((prev) => ({
         ...prev,
@@ -42,15 +42,25 @@ export function usePatients() {
     }
   }, []);
 
+  // Cuando el searchTerm cambia, hacemos un "debounce" de 300ms 
+  // para no saturar la API mientras el usuario tipea.
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      loadPatients(1, searchTerm);
+    }, 300);
+    
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, loadPatients]);
+
   const loadMore = useCallback(() => {
     if (!state.loading && state.hasMore) {
-      loadPatients(state.page + 1);
+      loadPatients(state.page + 1, searchTerm);
     }
-  }, [state.loading, state.hasMore, state.page, loadPatients]);
+  }, [state.loading, state.hasMore, state.page, searchTerm, loadPatients]);
 
   const refresh = useCallback(() => {
-    loadPatients(1);
-  }, [loadPatients]);
+    loadPatients(1, searchTerm);
+  }, [loadPatients, searchTerm]);
 
   const addPatient = useCallback((data: Omit<Patient, "id" | "createdAt">) => {
     const newPatient: Patient = {

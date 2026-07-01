@@ -8,6 +8,8 @@ import { useToast } from "./hooks/useToast";
 import { Toast } from "./components/Toast/Toast";
 import { useInfiniteScroll } from "./hooks/useInfiniteScroll";
 import { PatientGrid } from "./components/PatientGrid/PatientGrid";
+import { Button } from './components/ui/Button';
+
 
 
 function App() {
@@ -64,10 +66,10 @@ function App() {
     }
   };
 
-  const filteredPatients = patients.filter(p => 
+  const filteredPatients = patients.filter(p =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   const favoritePatients = filteredPatients.filter((p) => isFavorite(p.id));
 
   return (
@@ -105,12 +107,12 @@ function App() {
             />
           </div>
 
-          <button
+          <Button
             onClick={handleAdd}
-            className="bg-black text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-sm whitespace-nowrap shrink-0"
+            className="whitespace-nowrap shrink-0"
           >
             + Add Patient
-          </button>
+          </Button>
         </div>
 
         {/* Favorites section */}

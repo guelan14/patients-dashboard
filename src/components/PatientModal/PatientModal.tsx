@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { Patient } from '../../types/patient'
 import { FormField } from '../ui/FormField'
 import { validatePatient } from '../../utils/validatePatient'
+import { Button } from '../ui/Button'
 
 interface PatientModalProps {
   isOpen: boolean
@@ -105,22 +106,23 @@ export function PatientModal({ isOpen, onClose, onSave, patient }: PatientModalP
 
         {/* Actions */}
         <div className="flex gap-3 mt-6">
-          <button
+          <Button
             onClick={onClose}
-            className="flex-1 border border-gray-200 text-black font-medium rounded-lg py-2.5 text-sm hover:bg-gray-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            variant="outline"
+            className="flex-1"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleSubmit}
-            className="flex-1 bg-black text-white font-medium rounded-lg py-2.5 text-sm hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            className="flex-1"
           >
             {patient ? 'Save changes' : 'Add patient'}
-          </button>
+          </Button>
         </div>
 
       </div>
     </div>
   )
 }
-
+

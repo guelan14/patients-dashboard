@@ -1,6 +1,7 @@
 import type { Patient } from '../../types/patient'
-import { Avatar } from '../ui/Avatar'
-import { IconButton } from '../ui/IconButton'
+import { Link } from 'react-router-dom'
+import { Avatar } from '../ui/Avatar/Avatar'
+import { IconButton } from '../ui/IconButton/IconButton'
 
 interface PatientCardHeaderProps {
   patient: Patient
@@ -24,8 +25,10 @@ export function PatientCardHeader({
       <Avatar name={patient.name} src={patient.avatar} />
 
       <div className="flex-1 min-w-0 pr-2">
-        <h3 className="font-bold text-black truncate">{patient.name}</h3>
-        <p className="text-xs text-gray-500 font-medium tracking-wide mt-0.5 truncate">ID: {patient.id}</p>
+        <Link to={`/patient/${patient.id}`} className="hover:underline focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white rounded-sm">
+          <h3 className="font-bold text-black dark:text-white truncate">{patient.name}</h3>
+        </Link>
+        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 truncate">ID: {patient.id}</p>
       </div>
 
       <IconButton onClick={() => onEdit?.(patient)} aria-label="Edit patient">
@@ -42,12 +45,11 @@ export function PatientCardHeader({
       <IconButton
         onClick={() => onToggleFavorite(patient.id)}
         aria-label="Toggle favorite"
-        className={`transition-colors ${
-          isFavorite ? 'text-black' : 'text-gray-300 hover:text-black'
-        }`}
+        className={`transition-colors ${isFavorite ? 'text-black dark:text-white' : 'text-gray-300 dark:text-slate-600 hover:text-black dark:hover:text-white'
+          }`}
       >
         <svg
-          className={`w-5 h-5 ${isFavorite ? 'fill-black' : ''}`}
+          className={`w-5 h-5 ${isFavorite ? 'fill-black dark:fill-white' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

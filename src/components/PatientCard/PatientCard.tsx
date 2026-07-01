@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Patient } from '../../types/patient'
 import { PatientCardHeader } from './PatientCardHeader'
 import { PatientCardBody } from './PatientCardBody'
+import { Card } from '../ui/Card/Card'
 
 interface PatientCardProps {
   patient: Patient
@@ -14,7 +15,7 @@ export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit }: P
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-5 transition-all duration-300 hover:border-gray-300 hover:shadow-sm">
+    <Card>
       <PatientCardHeader
         patient={patient}
         isFavorite={isFavorite}
@@ -29,6 +30,6 @@ export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit }: P
         createdAt={patient.createdAt}
         expanded={expanded}
       />
-    </div>
+    </Card>
   )
 }

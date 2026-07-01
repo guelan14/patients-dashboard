@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Avatar } from '../components/ui/Avatar'
+import { Avatar } from '../components/ui/Avatar/Avatar'
 
 describe('Avatar', () => {
   it('renders image when src is provided', () => {

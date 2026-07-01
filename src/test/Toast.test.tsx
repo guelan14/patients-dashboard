@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import { Toast } from '../components/Toast/Toast'
+import { Toast } from '../components/ui/Toast/Toast'
 
 describe('Toast', () => {
   const mockOnClose = vi.fn()

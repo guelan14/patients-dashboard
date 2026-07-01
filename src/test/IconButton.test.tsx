@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import { IconButton } from '../components/ui/IconButton'
+import { IconButton } from '../components/ui/IconButton/IconButton'
 
 describe('IconButton', () => {
   it('renders correctly with aria-label', () => {

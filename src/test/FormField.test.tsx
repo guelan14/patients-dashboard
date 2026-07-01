@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { FormField } from '../components/ui/FormField'
+import { FormField } from '../components/ui/FormField/FormField'
 
 describe('FormField', () => {
   it('renders label and children', () => {

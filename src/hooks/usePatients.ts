@@ -23,14 +23,14 @@ export function usePatients(searchTerm: string = "") {
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
-      const data = await fetchPatients(pageToLoad, 10, search);
+      const data = await fetchPatients(pageToLoad, 9, search);
 
       setState((prev) => ({
         ...prev,
         patients: pageToLoad === 1 ? data
           : [...prev.patients, ...data.filter(p => !prev.patients.some(existing => existing.id === p.id))],
         loading: false,
-        hasMore: data.length === 10,
+        hasMore: data.length === 9,
         page: pageToLoad,
       }));
     } catch (err) {
@@ -48,7 +48,7 @@ export function usePatients(searchTerm: string = "") {
     const timeoutId = setTimeout(() => {
       loadPatients(1, searchTerm);
     }, 300);
-    
+
     return () => clearTimeout(timeoutId);
   }, [searchTerm, loadPatients]);
 

@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect } from 'react';
 import { IconButton } from '../IconButton/IconButton';
+import { CloseIcon } from '../Icons/Icons';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -37,9 +38,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
               {title}
             </h2>
             <IconButton onClick={onClose} aria-label="Close" className="text-gray-400 hover:text-black dark:hover:text-white">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <CloseIcon className="w-5 h-5" />
             </IconButton>
           </div>
         )}

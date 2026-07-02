@@ -7,7 +7,7 @@ import { Card } from '../ui/Card/Card'
 interface PatientCardProps {
   patient: Patient
   isFavorite: boolean
-  onToggleFavorite: (id: string) => void
+  onToggleFavorite: (patient: Patient) => void
   onEdit?: (patient: Patient) => void
 }
 

@@ -3,8 +3,11 @@ import { Dashboard } from './pages/Dashboard';
 import { PatientDetails } from './pages/PatientDetails';
 import { ThemeProvider } from './hooks/useTheme';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
+import { FavoritesSidebar } from './components/FavoritesSidebar/FavoritesSidebar';
+import { useState } from 'react';
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <ThemeProvider>
       <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-slate-900 transition-colors duration-200">
@@ -15,8 +18,22 @@ function App() {
             </div>
             <span className="font-bold text-lg tracking-wide hidden sm:block">PatientsApp</span>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="cursor-pointer flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-700 hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-200 text-sm font-medium"
+              aria-label="Open favorites"
+            >
+              <span className="text-yellow-400">★</span> Favoritos
+            </button>
+            <ThemeToggle />
+          </div>
         </header>
+
+        <FavoritesSidebar 
+          isOpen={isSidebarOpen} 
+          onClose={() => setIsSidebarOpen(false)} 
+        />
 
         {/* Main Content */}
         <main className="flex-1 w-full max-w-7xl mx-auto p-6 mt-4 pb-20">

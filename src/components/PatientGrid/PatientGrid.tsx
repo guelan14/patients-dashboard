@@ -5,7 +5,7 @@ import { SkeletonCard } from '../Skeleton/SkeletonCard'
 interface PatientGridProps {
   patients: Patient[]
   isFavorite: (id: string) => boolean
-  onToggleFavorite: (id: string) => void
+  onToggleFavorite: (patient: Patient) => void
   onEdit: (patient: Patient) => void
   loading?: boolean
 }

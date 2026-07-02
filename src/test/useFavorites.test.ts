@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { useFavorites } from '../hooks/useFavorites'
 
 describe('useFavorites', () => {
@@ -6,34 +7,37 @@ describe('useFavorites', () => {
     localStorage.clear()
   })
 
-  it('starts with empty favorites', () => {
+  it('should initialize with empty favorites', () => {
     const { result } = renderHook(() => useFavorites())
     expect(result.current.favorites).toEqual([])
   })
 
-  it('adds a patient to favorites', () => {
+  it('should toggle favorite status', () => {
     const { result } = renderHook(() => useFavorites())
+    const patient = { id: '1', name: 'John Doe' }
+
     act(() => {
-      result.current.toggleFavorite('43')
+      result.current.toggleFavorite(patient)
     })
-    expect(result.current.isFavorite('43')).toBe(true)
+    expect(result.current.favorites).toEqual([{ id: '1', name: 'John Doe', avatar: '' }])
+    expect(result.current.isFavorite('1')).toBe(true)
+
+    act(() => {
+      result.current.toggleFavorite(patient)
+    })
+    expect(result.current.favorites).toEqual([])
+    expect(result.current.isFavorite('1')).toBe(false)
   })
 
-  it('removes a patient from favorites', () => {
+  it('should persist to localStorage', () => {
     const { result } = renderHook(() => useFavorites())
+    const patient = { id: '2', name: 'Jane Doe' }
+    
     act(() => {
-      result.current.toggleFavorite('43')
-      result.current.toggleFavorite('43')
+      result.current.toggleFavorite(patient)
     })
-    expect(result.current.isFavorite('43')).toBe(false)
-  })
 
-  it('persists favorites in localStorage', () => {
-    const { result } = renderHook(() => useFavorites())
-    act(() => {
-      result.current.toggleFavorite('43')
-    })
     const stored = JSON.parse(localStorage.getItem('patient-favorites') || '[]')
-    expect(stored).toContain('43')
+    expect(stored).toEqual([{ id: '2', name: 'Jane Doe', avatar: '' }])
   })
 })

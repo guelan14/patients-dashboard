@@ -9,6 +9,7 @@ import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { PatientGrid } from "../components/PatientGrid/PatientGrid";
 import { Button } from '../components/ui/Button/Button';
 import { Input } from '../components/ui/Input/Input';
+import { SearchIcon } from '../components/ui/Icons/Icons';
 
 export function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,8 +62,6 @@ export function Dashboard() {
     }
   };
 
-  const favoritePatients = patients.filter((p) => isFavorite(p.id));
-
   return (
     <>
         {/* Page Title */}
@@ -74,9 +73,7 @@ export function Dashboard() {
         <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between border-b border-gray-200 dark:border-slate-700 pb-6">
           <div className="relative w-full sm:max-w-md">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <SearchIcon className="w-4 h-4 text-gray-400" />
             </div>
             <Input
               type="text"
@@ -87,28 +84,15 @@ export function Dashboard() {
             />
           </div>
 
-          <Button
-            onClick={handleAdd}
-            className="whitespace-nowrap shrink-0"
-          >
-            + Add Patient
-          </Button>
-        </div>
-
-        {/* Favorites section */}
-        {favoritePatients.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
-              Favorites ({favoritePatients.length})
-            </h2>
-            <PatientGrid
-              patients={favoritePatients}
-              isFavorite={isFavorite}
-              onToggleFavorite={toggleFavorite}
-              onEdit={handleEdit}
-            />
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
+            <Button
+              onClick={handleAdd}
+              className="whitespace-nowrap shrink-0 w-full sm:w-auto"
+            >
+              + Add Patient
+            </Button>
           </div>
-        )}
+        </div>
 
         {/* All patients */}
         <h2 className="text-2xl font-bold tracking-tight text-black dark:text-white mb-6">All Patients</h2>

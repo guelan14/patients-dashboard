@@ -4,7 +4,6 @@ import { useFavorites } from "../hooks/useFavorites";
 import { PatientModal } from "../components/PatientModal/PatientModal";
 import type { Patient } from "../types/patient";
 import { useToast } from "../hooks/useToast";
-import { Toast } from "../components/ui/Toast/Toast";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { PatientGrid } from "../components/PatientGrid/PatientGrid";
 import { Button } from '../components/ui/Button/Button';
@@ -31,7 +30,7 @@ export function Dashboard() {
     loading,
   })
 
-  const { toast, showToast, hideToast } = useToast()
+  const { showToast } = useToast()
 
   const [modalOpen, setModalOpen] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -140,13 +139,6 @@ export function Dashboard() {
         onSave={handleSave}
         patient={selectedPatient}
       />
-      {toast.visible && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={hideToast}
-        />
-      )}
     </>
   );
 }

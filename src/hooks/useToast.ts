@@ -1,25 +1,12 @@
-import { useState, useCallback } from 'react'
-
-interface ToastState {
-  message: string
-  type: 'success' | 'error'
-  visible: boolean
-}
+import { useContext } from 'react';
+import { ToastContext } from '../contexts/ToastContext';
 
 export function useToast() {
-  const [toast, setToast] = useState<ToastState>({
-    message: '',
-    type: 'success',
-    visible: false,
-  })
+  const context = useContext(ToastContext);
 
-  const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type, visible: true })
-  }, [])
+  if (!context) {
+    throw new Error('useToast must be used within a ToastProvider');
+  }
 
-  const hideToast = useCallback(() => {
-    setToast(prev => ({ ...prev, visible: false }))
-  }, [])
-
-  return { toast, showToast, hideToast }
+  return context;
 }

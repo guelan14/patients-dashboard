@@ -9,7 +9,6 @@ import { PatientProfileSkeleton } from '../components/Skeleton/PatientProfileSke
 import { useFavorites } from '../hooks/useFavorites';
 import { PatientModal } from '../components/PatientModal/PatientModal';
 import { useToast } from '../hooks/useToast';
-import { Toast } from '../components/ui/Toast/Toast';
 import { Modal } from '../components/ui/Modal/Modal';
 
 export function PatientDetails() {
@@ -21,7 +20,7 @@ export function PatientDetails() {
   const { isFavorite, toggleFavorite } = useFavorites();
   const [modalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { toast, showToast, hideToast } = useToast();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (!id) return;
@@ -125,13 +124,6 @@ export function PatientDetails() {
         </div>
       </Modal>
 
-      {toast.visible && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={hideToast}
-        />
-      )}
     </>
   );
 }

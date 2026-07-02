@@ -4,13 +4,16 @@ import { PatientDetails } from './pages/PatientDetails';
 import { ThemeProvider } from './hooks/useTheme';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 import { FavoritesSidebar } from './components/FavoritesSidebar/FavoritesSidebar';
+import { ToastProvider } from './contexts/ToastContext';
+import { ToastContainer } from './components/ui/Toast/ToastContainer';
 import { useState } from 'react';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-slate-900 transition-colors duration-200">
+      <ToastProvider>
+        <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-slate-900 transition-colors duration-200">
         <header className="bg-black dark:bg-slate-950 text-white py-3 px-6 sticky top-0 z-40 flex items-center justify-between">
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-8 h-8 bg-white dark:bg-slate-800 rounded flex items-center justify-center text-black dark:text-white font-bold text-xl leading-none">
@@ -49,7 +52,9 @@ function App() {
             <p>PatientsApp Dashboard by Migue</p>
           </div>
         </footer>
+        <ToastContainer />
       </div>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

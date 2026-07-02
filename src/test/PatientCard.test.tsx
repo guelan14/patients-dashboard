@@ -1,4 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { vi } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 import { PatientCard } from '../components/PatientCard/PatientCard'
 
 const mockPatient = {
@@ -18,7 +20,8 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     expect(screen.getByText('John Doe')).toBeInTheDocument()
   })
@@ -30,7 +33,8 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     expect(screen.getByText('ID: 1')).toBeInTheDocument()
   })
@@ -42,7 +46,8 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     const buttons = screen.getAllByRole('button')
     fireEvent.click(buttons[buttons.length - 1])
@@ -57,11 +62,12 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={mockToggle}
         onEdit={() => {}}
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     const buttons = screen.getAllByRole('button')
     fireEvent.click(buttons[1])
-    expect(mockToggle).toHaveBeenCalledWith('1')
+    expect(mockToggle).toHaveBeenCalledWith(mockPatient)
   })
 
   it('calls onEdit when edit button clicked', () => {
@@ -72,7 +78,8 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={mockEdit}
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     const buttons = screen.getAllByRole('button')
     fireEvent.click(buttons[0])

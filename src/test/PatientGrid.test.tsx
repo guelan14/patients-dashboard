@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 import { PatientGrid } from '../components/PatientGrid/PatientGrid'
 
 describe('PatientGrid', () => {
@@ -18,7 +19,8 @@ describe('PatientGrid', () => {
         onToggleFavorite={mockOnToggle} 
         onEdit={mockOnEdit} 
         loading={true} 
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     const skeletons = container.querySelectorAll('.animate-pulse')
     expect(skeletons.length).toBeGreaterThan(0)
@@ -32,7 +34,8 @@ describe('PatientGrid', () => {
         onToggleFavorite={mockOnToggle} 
         onEdit={mockOnEdit} 
         loading={false} 
-      />
+      />,
+      { wrapper: MemoryRouter }
     )
     expect(screen.getByText('Patient One')).toBeInTheDocument()
     expect(screen.getByText('Patient Two')).toBeInTheDocument()

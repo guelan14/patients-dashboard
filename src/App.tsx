@@ -7,9 +7,11 @@ import { FavoritesSidebar } from './components/FavoritesSidebar/FavoritesSidebar
 import { ToastProvider } from './contexts/ToastContext';
 import { ToastContainer } from './components/ui/Toast/ToastContainer';
 import { useState } from 'react';
+import { useFavorites } from './hooks/useFavorites';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { favorites } = useFavorites();
   return (
     <ThemeProvider>
       <ToastProvider>
@@ -27,7 +29,7 @@ function App() {
               className="cursor-pointer flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-700 hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-200 text-sm font-medium"
               aria-label="Open favorites"
             >
-              <span className="text-yellow-400">★</span> Favoritos
+              <span className="text-yellow-400">★</span> Favoritos ({favorites.length})
             </button>
             <ThemeToggle />
           </div>

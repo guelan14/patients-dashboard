@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { vi } from 'vitest'
 import { Toast } from '../components/ui/Toast/Toast'
 
@@ -7,6 +7,11 @@ describe('Toast', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.useFakeTimers()
+  })
+  
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   it('renders success toast correctly', () => {
@@ -26,6 +31,9 @@ describe('Toast', () => {
     render(<Toast message="Test" type="success" onClose={mockOnClose} />)
     const button = screen.getByRole('button')
     fireEvent.click(button)
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
     expect(mockOnClose).toHaveBeenCalled()
   })
 })

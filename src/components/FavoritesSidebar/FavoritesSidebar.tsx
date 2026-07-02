@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../../hooks/useFavorites';
 import { Avatar } from '../ui/Avatar/Avatar';
 import { IconButton } from '../ui/IconButton/IconButton';
-import { CloseIcon } from '../ui/Icons/Icons';
+import { Modal } from '../ui/Modal/Modal';
+import { Button } from '../ui/Button/Button';
+import { CloseIcon, TrashIcon } from '../ui/Icons/Icons';
 
 interface FavoritesSidebarProps {
   isOpen: boolean;
@@ -10,7 +13,8 @@ interface FavoritesSidebarProps {
 }
 
 export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
-  const { favorites } = useFavorites();
+  const { favorites, toggleFavorite } = useFavorites();
+  const [patientToDelete, setPatientToDelete] = useState<{id: string; name: string; avatar?: string} | null>(null);
 
   return (
     <>
@@ -62,14 +66,51 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
                     {patient.name}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    ID: {patient.id.substring(0, 8)}
+                    ID: {patient.id ? String(patient.id).substring(0, 8) : 'N/A'}
                   </p>
                 </div>
+                <IconButton
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setPatientToDelete(patient);
+                  }}
+                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+                  aria-label="Eliminar de favoritos"
+                >
+                  <TrashIcon className="w-4 h-4" />
+                </IconButton>
               </Link>
             ))
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={!!patientToDelete}
+        onClose={() => setPatientToDelete(null)}
+        title="Eliminar de favoritos"
+      >
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          ¿Estás seguro de que deseas eliminar a este paciente de tus favoritos?
+        </p>
+        <div className="flex justify-end gap-3 mt-8">
+          <Button variant="outline" onClick={() => setPatientToDelete(null)}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={() => {
+              if (patientToDelete) {
+                toggleFavorite(patientToDelete);
+                setPatientToDelete(null);
+              }
+            }}
+            className="bg-red-500 hover:bg-red-600 text-white border-transparent"
+          >
+            Eliminar
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }

@@ -14,7 +14,7 @@ vi.mock('axios', () => {
   };
 });
 
-import { fetchPatients, fetchPatientById } from '../services/api';
+import { fetchPatients, fetchPatientById } from '../../services/api';
 
 describe('api.ts', () => {
   beforeEach(() => {

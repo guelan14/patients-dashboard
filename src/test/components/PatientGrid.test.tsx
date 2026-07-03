@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
-import { PatientGrid } from '../components/PatientGrid/PatientGrid'
+import { PatientGrid } from '../../components/PatientGrid/PatientGrid'
 
 describe('PatientGrid', () => {
   const mockPatients = [

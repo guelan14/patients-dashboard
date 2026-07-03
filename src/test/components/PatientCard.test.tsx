@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
-import { PatientCard } from '../components/PatientCard/PatientCard'
+import { PatientCard } from '../../components/PatientCard/PatientCard'
 
 const mockPatient = {
   id: '1',

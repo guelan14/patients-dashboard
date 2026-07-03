@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import { PatientProfile } from '../components/PatientProfile/PatientProfile'
+import { PatientProfile } from '../../components/PatientProfile/PatientProfile'
 
 describe('PatientProfile', () => {
   const mockPatient = {

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
-import { FavoritesSidebar } from '../components/FavoritesSidebar/FavoritesSidebar'
-import * as useFavoritesHook from '../hooks/useFavorites'
+import { FavoritesSidebar } from '../../components/FavoritesSidebar/FavoritesSidebar'
+import * as useFavoritesHook from '../../hooks/useFavorites'
 
 describe('FavoritesSidebar', () => {
   const mockToggleFavorite = vi.fn()

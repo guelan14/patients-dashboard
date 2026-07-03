@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react'
-import { useToast } from '../hooks/useToast'
-import { ToastProvider } from '../contexts/ToastContext'
+import { useToast } from '../../hooks/useToast'
+import { ToastProvider } from '../../contexts/ToastContext'
 import type { ReactNode } from 'react'
 
 describe('useToast', () => {

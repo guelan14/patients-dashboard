@@ -1,12 +1,12 @@
 import { renderHook, act } from '@testing-library/react'
-import { usePatients } from '../hooks/usePatients'
+import { usePatients } from '../../hooks/usePatients'
 import { vi } from 'vitest'
 
-vi.mock('../services/api', () => ({
+vi.mock('../../services/api', () => ({
   fetchPatients: vi.fn(),
 }))
 
-import { fetchPatients } from '../services/api'
+import { fetchPatients } from '../../services/api'
 
 const mockPatients = [
   { id: '1', name: 'John', description: 'desc', website: 'https://test.com', avatar: '', createdAt: '2023-01-01' },

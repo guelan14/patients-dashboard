@@ -1,4 +1,4 @@
-import { validatePatient } from '../utils/validatePatient'
+import { validatePatient } from '../../utils/validatePatient'
 
 describe('PatientModal validation', () => {
   it('returns error when name is empty', () => {

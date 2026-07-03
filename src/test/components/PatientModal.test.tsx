@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import { PatientModal } from '../components/PatientModal/PatientModal'
+import { PatientModal } from '../../components/PatientModal/PatientModal'
 
 describe('PatientModal', () => {
   const mockOnClose = vi.fn()

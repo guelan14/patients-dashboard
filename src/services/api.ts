@@ -19,8 +19,8 @@ export async function fetchPatients(
     const response = await api.get("/users", { params });
     const parsed = PatientsArraySchema.safeParse(response.data);
     if (!parsed.success) {
-      console.error("Error de validación:", parsed.error.issues);
-      throw new Error("La respuesta de la API no tiene el formato esperado");
+      console.error("Validation error:", parsed.error.issues);
+      throw new Error("API response format is invalid");
     }
     return parsed.data;
   } catch (error: any) {
@@ -40,8 +40,8 @@ export async function fetchPatientById(id: string): Promise<Patient> {
   const parsed = PatientSchema.safeParse(response.data);
 
   if (!parsed.success) {
-    console.error("Error de validación:", parsed.error.issues);
-    throw new Error("La respuesta de la API no tiene el formato esperado");
+    console.error("Validation error:", parsed.error.issues);
+    throw new Error("API response format is invalid");
   }
 
   return parsed.data;

@@ -15,13 +15,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        placeholder: 'Escribe algo aquí...',
+        placeholder: 'Type something here...',
     },
 };
 
 export const WithError: Story = {
     args: {
-        placeholder: 'Escribe algo aquí...',
+        placeholder: 'Type something here...',
         hasError: true,
     },
 };

@@ -33,7 +33,7 @@ export function PatientDetails() {
         const data = await fetchPatientById(id);
         if (isMounted) setPatient(data);
       } catch (err) {
-        if (isMounted) setError("No se pudo cargar la información del paciente.");
+        if (isMounted) setError("Could not load patient information.");
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -106,10 +106,10 @@ export function PatientDetails() {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        title="Eliminar Paciente"
+        title="Delete Patient"
       >
         <p className="text-gray-700 dark:text-gray-300 mb-6">
-          ¿Estás seguro de que deseas eliminar a este paciente? Esta acción no se puede deshacer.
+          Are you sure you want to delete this patient? This action cannot be undone.
         </p>
         <div className="flex justify-end gap-3 mt-8">
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>

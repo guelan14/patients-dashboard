@@ -29,7 +29,7 @@ test.describe('Patients Dashboard', () => {
 
     // Type a nonexistent name to see the empty state
     await page.getByPlaceholder('Filter patients by name...').fill('NoExisteEstePaciente');
-    await expect(page.getByText('No hay resultados que coincidan con la búsqueda "NoExisteEstePaciente"')).toBeVisible();
+    await expect(page.getByText('No results match the search "NoExisteEstePaciente". Try using different terms.')).toBeVisible();
 
     // Clear search
     await page.getByPlaceholder('Filter patients by name...').fill('');

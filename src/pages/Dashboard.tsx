@@ -101,16 +101,16 @@ export function Dashboard() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No se encontraron pacientes</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No patients found</h3>
           <p className="text-gray-500 dark:text-gray-400 text-center max-w-md">
-            No hay resultados que coincidan con la búsqueda "{searchTerm}". Intenta usar otros términos.
+            No results match the search "{searchTerm}". Try using different terms.
           </p>
           <Button
             onClick={() => setSearchTerm("")}
             variant="outline"
             className="mt-6"
           >
-            Limpiar búsqueda
+            Clear search
           </Button>
         </div>
       ) : (
@@ -123,7 +123,7 @@ export function Dashboard() {
         />
       )}
 
-      {loading && <p className="text-center mt-4 text-gray-400">Cargando...</p>}
+      {loading && <p className="text-center mt-4 text-gray-400">Loading...</p>}
       {error && <p className="text-center mt-4 text-red-400">{error}</p>}
 
       {hasMore && !loading && (

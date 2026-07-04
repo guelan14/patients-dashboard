@@ -35,7 +35,7 @@ export function Toast({ message, type, onClose }: ToastProps) {
         {type === 'success' ? '✓' : '✕'}
       </span>
       <span className="font-medium tracking-wide flex-1">{message}</span>
-      <IconButton onClick={handleClose} aria-label="Cerrar notificación" className="text-gray-400 hover:text-white -mr-2 p-1">
+      <IconButton onClick={handleClose} aria-label="Close notification" className="text-gray-400 hover:text-white -mr-2 p-1">
         <CloseIcon className="w-4 h-4" />
       </IconButton>
     </div>

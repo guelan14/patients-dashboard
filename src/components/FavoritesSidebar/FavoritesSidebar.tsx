@@ -46,8 +46,8 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
           {favorites.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400 px-4">
               <span className="text-4xl mb-3 opacity-50 grayscale">⭐</span>
-              <p className="text-sm font-medium">No tienes pacientes favoritos aún.</p>
-              <p className="text-xs mt-2 opacity-70">Marca la estrella en cualquier paciente para añadirlo aquí.</p>
+              <p className="text-sm font-medium">You have no favorite patients yet.</p>
+              <p className="text-xs mt-2 opacity-70">Click the star on any patient to add them here.</p>
             </div>
           ) : (
             favorites.map((patient) => (
@@ -89,10 +89,10 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
       <Modal
         isOpen={!!patientToDelete}
         onClose={() => setPatientToDelete(null)}
-        title="Eliminar de favoritos"
+        title="Remove from favorites"
       >
         <p className="text-gray-700 dark:text-gray-300 mb-6">
-          ¿Estás seguro de que deseas eliminar a este paciente de tus favoritos?
+          Are you sure you want to remove this patient from your favorites?
         </p>
         <div className="flex justify-end gap-3 mt-8">
           <Button variant="outline" onClick={() => setPatientToDelete(null)}>

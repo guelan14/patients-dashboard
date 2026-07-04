@@ -19,7 +19,7 @@ describe('FavoritesSidebar', () => {
 
   it('renders empty state when no favorites exist', () => {
     render(<FavoritesSidebar isOpen={true} onClose={mockOnClose} />)
-    expect(screen.getByText('No tienes pacientes favoritos aún.')).toBeInTheDocument()
+    expect(screen.getByText('You have no favorite patients yet.')).toBeInTheDocument()
   })
 
   it('renders favorite patients', () => {

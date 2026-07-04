@@ -53,7 +53,7 @@ describe('PatientDetails', () => {
     renderWithProviders(<PatientDetails />)
     
     await waitFor(() => {
-      expect(screen.getByText('No se pudo cargar la información del paciente.')).toBeInTheDocument()
+      expect(screen.getByText('Could not load patient information.')).toBeInTheDocument()
     })
   })
 })

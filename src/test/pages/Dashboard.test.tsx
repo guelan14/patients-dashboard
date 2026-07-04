@@ -85,7 +85,7 @@ describe('Dashboard', () => {
 
     render(<Dashboard />, { wrapper: MemoryRouter })
 
-    expect(screen.getByText('No se encontraron pacientes')).toBeInTheDocument()
+    expect(screen.getByText('No patients found')).toBeInTheDocument()
   })
 
   it('opens add patient modal when clicking + Add Patient and saves', () => {
@@ -132,7 +132,7 @@ describe('Dashboard', () => {
 
     render(<Dashboard />, { wrapper: MemoryRouter })
 
-    const clearBtn = screen.getByText('Limpiar búsqueda')
+    const clearBtn = screen.getByText('Clear search')
     fireEvent.click(clearBtn)
 
     // the input should be cleared

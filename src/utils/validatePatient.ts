@@ -8,10 +8,10 @@ export interface PatientFormData {
 export function validatePatient(form: PatientFormData): Record<string, string> {
   const errors: Record<string, string> = {}
 
-  if (!form.name.trim()) errors.name = 'El nombre es requerido'
-  if (!form.description.trim()) errors.description = 'La descripción es requerida'
+  if (!form.name.trim()) errors.name = 'Name is required'
+  if (!form.description.trim()) errors.description = 'Description is required'
   if (form.website && !/^https?:\/\/.+/.test(form.website)) {
-    errors.website = 'La URL debe comenzar con http:// o https://'
+    errors.website = 'URL must start with http:// or https://'
   }
 
   return errors

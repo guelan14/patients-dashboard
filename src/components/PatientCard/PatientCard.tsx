@@ -15,7 +15,7 @@ export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit }: P
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <Card>
+    <Card data-testid="patient-card">
       <PatientCardHeader
         patient={patient}
         isFavorite={isFavorite}

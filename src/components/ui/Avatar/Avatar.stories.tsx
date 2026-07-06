@@ -27,13 +27,13 @@ export const WithImage: Story = {
 export const Large: Story = {
   args: {
     name: 'Large Avatar',
-    size: 'lg',
+    className: 'w-16 h-16',
   },
 };
 
 export const Small: Story = {
   args: {
     name: 'Small Avatar',
-    size: 'sm',
+    className: 'w-8 h-8',
   },
 };

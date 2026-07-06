@@ -18,6 +18,7 @@ export const Open: Story = {
   args: {
     isOpen: true,
     title: 'Example Modal',
+    onClose: () => {},
     children: (
       <div>
         <p>This is the modal content.</p>
@@ -30,6 +31,7 @@ export const Closed: Story = {
   args: {
     isOpen: false,
     title: 'Hidden Modal',
+    onClose: () => {},
     children: <p>You should not see this.</p>,
   },
 };

@@ -47,7 +47,7 @@ export const WithoutWebsite: Story = {
   args: {
     patient: {
       ...mockPatient,
-      website: undefined,
+      website: '',
     },
     isFavorite: false,
   },

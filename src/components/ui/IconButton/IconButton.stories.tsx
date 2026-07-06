@@ -19,5 +19,6 @@ export const Default: Story = {
   args: {
     children: <StarIcon className="w-5 h-5" />,
     'aria-label': 'Star',
+    onClick: () => {},
   },
 };

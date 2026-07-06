@@ -18,6 +18,7 @@ export const Success: Story = {
   args: {
     message: 'Operation completed successfully.',
     type: 'success',
+    onClose: () => {},
   },
 };
 
@@ -25,12 +26,8 @@ export const Error: Story = {
   args: {
     message: 'An error occurred during the operation.',
     type: 'error',
+    onClose: () => {},
   },
 };
 
-export const Info: Story = {
-  args: {
-    message: 'This is some information for the user.',
-    type: 'info',
-  },
-};
+

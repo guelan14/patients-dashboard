@@ -1,4 +1,6 @@
 import type { Preview } from '@storybook/react-vite'
+import { BrowserRouter } from 'react-router-dom'
+import '../src/index.css'
 
 const preview: Preview = {
   parameters: {
@@ -16,6 +18,13 @@ const preview: Preview = {
       test: 'todo'
     }
   },
+  decorators: [
+    (Story) => (
+      <BrowserRouter>
+        <Story />
+      </BrowserRouter>
+    ),
+  ],
 };
 
 export default preview;

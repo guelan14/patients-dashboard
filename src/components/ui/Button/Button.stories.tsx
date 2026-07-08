@@ -15,13 +15,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        children: 'Agregar algo',
+        children: 'Add something',
     },
 };
 
 export const Outline: Story = {
     args: {
-        children: 'Cancelar',
+        children: 'Cancel',
         variant: 'outline',
     },
 };

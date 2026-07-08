@@ -49,7 +49,7 @@ export function PatientDetails() {
 
   const confirmDelete = () => {
     setIsDeleteModalOpen(false);
-    showToast("Paciente eliminado", "success");
+    showToast("Patient deleted successfully", "success");
     // Simulate API delay
     setTimeout(() => {
       window.location.href = "/";
@@ -73,7 +73,7 @@ export function PatientDetails() {
   };
 
   if (error || (!patient && !loading)) {
-    return <ErrorMessage message={error || "Paciente no encontrado"} />;
+    return <ErrorMessage message={error || "Patient not found"} />;
   }
 
   return (
@@ -81,7 +81,7 @@ export function PatientDetails() {
       <div className="py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <Link to="/">
           <Button variant="outline" className="mb-6 group hover:border-black dark:hover:border-white transition-colors">
-            <span className="inline-block transform group-hover:-translate-x-1 transition-transform">&larr;</span> Volver al Dashboard
+            <span className="inline-block transform group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Dashboard
           </Button>
         </Link>
 
@@ -113,13 +113,13 @@ export function PatientDetails() {
         </p>
         <div className="flex justify-end gap-3 mt-8">
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
-            Cancelar
+            Cancel
           </Button>
           <Button
             onClick={confirmDelete}
             className="bg-red-500 hover:bg-red-600 text-white border-transparent"
           >
-            Eliminar
+            Delete
           </Button>
         </div>
       </Modal>

@@ -44,7 +44,7 @@ describe('PatientDetails', () => {
     await waitFor(() => {
       expect(screen.getByText('Jane Doe')).toBeInTheDocument()
     })
-    expect(screen.getByText(/Registrado el/)).toBeInTheDocument()
+    expect(screen.getByText(/Registered on/)).toBeInTheDocument()
   })
 
   it('renders error message if fetching fails', async () => {

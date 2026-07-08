@@ -63,7 +63,7 @@ describe('api.ts', () => {
       // Invalid data missing required fields
       mockGet.mockResolvedValueOnce({ data: [{ id: '1' }] });
 
-      await expect(fetchPatients()).rejects.toThrow('La respuesta de la API no tiene el formato esperado');
+      await expect(fetchPatients()).rejects.toThrow('API response format is invalid');
     });
 
     it('throws original error on non-404 failures', async () => {
@@ -93,7 +93,7 @@ describe('api.ts', () => {
     it('throws error when validation fails', async () => {
       mockGet.mockResolvedValueOnce({ data: { id: '1' } }); // Missing name, etc.
 
-      await expect(fetchPatientById('1')).rejects.toThrow('La respuesta de la API no tiene el formato esperado');
+      await expect(fetchPatientById('1')).rejects.toThrow('API response format is invalid');
     });
   });
 });

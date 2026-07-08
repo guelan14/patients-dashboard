@@ -12,7 +12,7 @@ interface PatientProfileProps {
 }
 
 export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, onEdit, onDelete }: PatientProfileProps) {
-  const formattedDate = new Date(patient.createdAt).toLocaleDateString(undefined, {
+  const formattedDate = new Date(patient.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -70,14 +70,14 @@ export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, 
                 ID: {patient.id.substring(0, 8)}
               </span>
               <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Registrado el {formattedDate}
+                Registered on {formattedDate}
               </span>
             </div>
           </div>
 
           {patient.description && (
             <div className="prose dark:prose-invert max-w-none bg-gray-50 dark:bg-slate-800/50 rounded-2xl p-6 border border-gray-100 dark:border-slate-700/50">
-              <h3 className="text-sm uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-2">Acerca del Paciente</h3>
+              <h3 className="text-sm uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-2">About the Patient</h3>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {patient.description}
               </p>
@@ -87,7 +87,7 @@ export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {patient.website && (
               <div className="bg-gray-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-gray-100 dark:border-slate-700/50 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">
-                <h3 className="text-xs uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-1">Sitio Web</h3>
+                <h3 className="text-xs uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-1">Website</h3>
                 <a 
                   href={patient.website.startsWith('http') ? patient.website : `https://${patient.website}`} 
                   target="_blank" 

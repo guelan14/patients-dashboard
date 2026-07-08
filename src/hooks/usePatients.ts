@@ -37,13 +37,12 @@ export function usePatients(searchTerm: string = "") {
       setState((prev) => ({
         ...prev,
         loading: false,
-        error: "Error al cargar los pacientes",
+        error: "Error loading patients",
       }));
     }
   }, []);
 
-  // Cuando el searchTerm cambia, hacemos un "debounce" de 300ms 
-  // para no saturar la API mientras el usuario tipea.
+  // When searchTerm changes, debounce for 300ms to avoid hammering the API while typing.
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       loadPatients(1, searchTerm);

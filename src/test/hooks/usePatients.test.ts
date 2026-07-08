@@ -95,7 +95,7 @@ describe('usePatients', () => {
       result.current.refresh()
     })
 
-    expect(result.current.error).toBe('Error al cargar los pacientes')
+    expect(result.current.error).toBe('Error loading patients')
     expect(result.current.loading).toBe(false)
   })
 })

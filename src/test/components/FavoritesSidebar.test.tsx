@@ -48,14 +48,14 @@ describe('FavoritesSidebar', () => {
     render(<FavoritesSidebar isOpen={true} onClose={mockOnClose} />, { wrapper: MemoryRouter })
     
     // Find the trash icon button
-    const deleteButton = screen.getByLabelText('Eliminar de favoritos')
+    const deleteButton = screen.getByLabelText('Remove from favorites')
     fireEvent.click(deleteButton)
 
     // Modal title should appear
-    expect(screen.getByText('Eliminar de favoritos', { selector: 'h2' })).toBeInTheDocument()
+    expect(screen.getByText('Remove from favorites', { selector: 'h2' })).toBeInTheDocument()
     
     // Click confirm delete button
-    const confirmButton = screen.getByRole('button', { name: 'Eliminar' })
+    const confirmButton = screen.getByRole('button', { name: 'Remove' })
     fireEvent.click(confirmButton)
 
     expect(mockToggleFavorite).toHaveBeenCalledWith({ id: '1', name: 'John Doe', avatar: '' })

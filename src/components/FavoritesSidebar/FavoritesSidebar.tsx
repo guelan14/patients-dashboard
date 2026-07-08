@@ -31,12 +31,12 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
       >
         <div className="p-6 pb-2 flex items-center justify-between border-b border-gray-200/50 dark:border-slate-700/50">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="text-yellow-400">⭐</span> Favoritos
+            <span className="text-yellow-400">⭐</span> Favorites
           </h2>
           <IconButton 
             onClick={onClose}
             className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-            aria-label="Cerrar favoritos"
+            aria-label="Close favorites"
           >
             <CloseIcon className="w-5 h-5" />
           </IconButton>
@@ -76,7 +76,7 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
                     setPatientToDelete(patient);
                   }}
                   className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
-                  aria-label="Eliminar de favoritos"
+                  aria-label="Remove from favorites"
                 >
                   <TrashIcon className="w-4 h-4" />
                 </IconButton>
@@ -96,7 +96,7 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
         </p>
         <div className="flex justify-end gap-3 mt-8">
           <Button variant="outline" onClick={() => setPatientToDelete(null)}>
-            Cancelar
+            Cancel
           </Button>
           <Button
             onClick={() => {
@@ -107,7 +107,7 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
             }}
             className="bg-red-500 hover:bg-red-600 text-white border-transparent"
           >
-            Eliminar
+            Remove
           </Button>
         </div>
       </Modal>

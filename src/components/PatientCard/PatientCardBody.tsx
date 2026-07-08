@@ -6,7 +6,7 @@ interface PatientCardBodyProps {
 }
 
 export function PatientCardBody({ description, website, createdAt, expanded }: PatientCardBodyProps) {
-  const formattedDate = new Date(createdAt).toLocaleDateString('es-ES', {
+  const formattedDate = new Date(createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -26,7 +26,7 @@ export function PatientCardBody({ description, website, createdAt, expanded }: P
         >
           {website}
         </a>
-        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Registrado: {formattedDate}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Registered: {formattedDate}</p>
       </div>
     </div>
   )

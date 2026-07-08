@@ -29,7 +29,7 @@ function App() {
               className="cursor-pointer flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-700 hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-200 text-sm font-medium"
               aria-label="Open favorites"
             >
-              <span className="text-yellow-400">★</span> Favoritos ({favorites.length})
+              <span className="text-yellow-400">★</span> Favorites ({favorites.length})
             </button>
             <ThemeToggle />
           </div>

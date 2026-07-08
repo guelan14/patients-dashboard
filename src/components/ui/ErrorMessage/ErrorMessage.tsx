@@ -8,9 +8,9 @@ interface ErrorMessageProps {
 }
 
 export function ErrorMessage({ 
-  message = "Ha ocurrido un error", 
+  message = "An error occurred", 
   backUrl = "/", 
-  backText = "Volver" 
+  backText = "Go back" 
 }: ErrorMessageProps) {
   return (
     <div className="py-6">

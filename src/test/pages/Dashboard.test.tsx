@@ -139,4 +139,10 @@ describe('Dashboard', () => {
     const searchInput = screen.getByPlaceholderText('Filter patients by name...')
     expect(searchInput).toHaveValue('')
   })
+
+  it('shows a button to go to archived patients', () => {
+    render(<Dashboard />, { wrapper: MemoryRouter })
+
+    expect(screen.getByRole('link', { name: 'Archived Patients' })).toBeInTheDocument()
+  })
 })

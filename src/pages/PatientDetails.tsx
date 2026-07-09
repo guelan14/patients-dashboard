@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button/Button';
-import { fetchPatientById } from '../services/api';
+import { deletePatientById, fetchPatientById } from '../services/api';
 import type { Patient } from '../types/patient';
 import { ErrorMessage } from '../components/ui/ErrorMessage/ErrorMessage';
 import { PatientProfile } from '../components/PatientProfile/PatientProfile';
@@ -33,7 +33,11 @@ export function PatientDetails() {
         const data = await fetchPatientById(id);
         if (isMounted) setPatient(data);
       } catch (err) {
-        if (isMounted) setError("Could not load patient information.");
+        if (isMounted) {
+          setError(err instanceof Error && err.message === 'Patient not found'
+            ? 'Patient not found'
+            : 'Could not load patient information.');
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -48,8 +52,11 @@ export function PatientDetails() {
   };
 
   const confirmDelete = () => {
+    if (patient) {
+      deletePatientById(patient);
+    }
     setIsDeleteModalOpen(false);
-    showToast("Patient deleted successfully", "success");
+    showToast("Patient archived successfully", "success");
     // Simulate API delay
     setTimeout(() => {
       window.location.href = "/";
@@ -106,10 +113,10 @@ export function PatientDetails() {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        title="Delete Patient"
+        title="Archive Patient"
       >
         <p className="text-gray-700 dark:text-gray-300 mb-6">
-          Are you sure you want to delete this patient? This action cannot be undone.
+          Are you sure you want to archive this patient? You can restore it later from the Archived Patients section.
         </p>
         <div className="flex justify-end gap-3 mt-8">
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
@@ -119,7 +126,7 @@ export function PatientDetails() {
             onClick={confirmDelete}
             className="bg-red-500 hover:bg-red-600 text-white border-transparent"
           >
-            Delete
+            Archive
           </Button>
         </div>
       </Modal>

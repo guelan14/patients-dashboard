@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Dashboard } from './pages/Dashboard';
+import { ArchivedPatients } from './pages/ArchivedPatients';
 import { PatientDetails } from './pages/PatientDetails';
 import { ThemeProvider } from './hooks/useTheme';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
@@ -44,6 +45,7 @@ function App() {
         <main className="flex-1 w-full max-w-7xl mx-auto p-6 mt-4 pb-20">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/archived" element={<ArchivedPatients />} />
             <Route path="/patient/:id" element={<PatientDetails />} />
           </Routes>
         </main>

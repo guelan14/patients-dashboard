@@ -52,7 +52,7 @@ describe('PatientProfile', () => {
     expect(mockEdit).toHaveBeenCalledWith(mockPatient)
   })
 
-  it('calls onDelete when delete button is clicked', () => {
+  it('calls onDelete when archive button is clicked', () => {
     const mockDelete = vi.fn()
     render(
       <PatientProfile 
@@ -61,7 +61,7 @@ describe('PatientProfile', () => {
       />
     )
     
-    const deleteBtn = screen.getByLabelText('Delete patient')
+    const deleteBtn = screen.getByLabelText('Archive patient')
     fireEvent.click(deleteBtn)
     
     expect(mockDelete).toHaveBeenCalledWith(mockPatient)

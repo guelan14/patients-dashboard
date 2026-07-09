@@ -9,6 +9,7 @@ import { PatientGrid } from "../components/PatientGrid/PatientGrid";
 import { Button } from '../components/ui/Button/Button';
 import { Input } from '../components/ui/Input/Input';
 import { SearchIcon } from '../components/ui/Icons/Icons';
+import { Link } from 'react-router-dom';
 
 export function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +20,7 @@ export function Dashboard() {
     error,
     loadMore,
     hasMore,
+    refresh,
     addPatient,
     updatePatient,
   } = usePatients(searchTerm);
@@ -83,6 +85,14 @@ export function Dashboard() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
+          <Link to="/archived" className="w-full sm:w-auto">
+            <Button
+              variant="outline"
+              className="whitespace-nowrap shrink-0 w-full sm:w-auto"
+            >
+              Archived Patients
+            </Button>
+          </Link>
           <Button
             onClick={handleAdd}
             className="whitespace-nowrap shrink-0 w-full sm:w-auto"

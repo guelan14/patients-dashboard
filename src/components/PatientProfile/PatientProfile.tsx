@@ -58,7 +58,7 @@ export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, 
                 )}
 
                 {onDelete && (
-                  <IconButton onClick={() => onDelete(patient)} aria-label="Delete patient">
+                  <IconButton onClick={() => onDelete(patient)} aria-label="Archive patient">
                     <TrashIcon className="w-6 h-6 text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors" />
                   </IconButton>
                 )}

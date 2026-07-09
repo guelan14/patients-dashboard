@@ -14,11 +14,12 @@ vi.mock('axios', () => {
   };
 });
 
-import { fetchPatients, fetchPatientById } from '../../services/api';
+import { deletePatientById, fetchPatients, fetchPatientById, readArchivedPatients } from '../../services/api';
 
 describe('api.ts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
   });
 
   describe('fetchPatients', () => {
@@ -59,6 +60,33 @@ describe('api.ts', () => {
       expect(result).toEqual([]);
     });
 
+    it('returns raw api patients so pagination can keep working', async () => {
+      localStorage.setItem('patient-records-deleted-ids', JSON.stringify(['2']));
+      mockGet.mockResolvedValueOnce({ data: [
+        {
+          id: '1',
+          name: 'John Doe',
+          description: 'Desc',
+          website: 'https://example.com',
+          avatar: 'avatar.png',
+          createdAt: '2023-01-01'
+        },
+        {
+          id: '2',
+          name: 'Deleted Patient',
+          description: 'Desc',
+          website: 'https://example.com',
+          avatar: 'avatar.png',
+          createdAt: '2023-01-01'
+        }
+      ] });
+
+      const result = await fetchPatients(1, 10, '');
+
+      expect(result).toHaveLength(2);
+      expect(result.map((patient) => patient.id)).toEqual(['1', '2']);
+    });
+
     it('throws error when validation fails', async () => {
       // Invalid data missing required fields
       mockGet.mockResolvedValueOnce({ data: [{ id: '1' }] });
@@ -74,6 +102,10 @@ describe('api.ts', () => {
   });
 
   describe('fetchPatientById', () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
     it('fetches patient by id successfully', async () => {
       const mockPatient = {
         id: '1',
@@ -94,6 +126,84 @@ describe('api.ts', () => {
       mockGet.mockResolvedValueOnce({ data: { id: '1' } }); // Missing name, etc.
 
       await expect(fetchPatientById('1')).rejects.toThrow('API response format is invalid');
+    });
+
+    it('returns a locally stored patient before calling the API', async () => {
+      const localPatient = {
+        id: 'local-1',
+        name: 'Local Patient',
+        description: 'Desc',
+        website: 'https://example.com',
+        avatar: '',
+        createdAt: '2023-01-01'
+      };
+
+      localStorage.setItem('patient-records-local-updates', JSON.stringify([localPatient]));
+
+      const result = await fetchPatientById('local-1');
+
+      expect(result).toEqual(localPatient);
+      expect(mockGet).not.toHaveBeenCalled();
+    });
+
+    it('throws not found for deleted patients', async () => {
+      localStorage.setItem('patient-records-deleted-ids', JSON.stringify(['1']));
+
+      await expect(fetchPatientById('1')).rejects.toThrow('Patient not found');
+      expect(mockGet).not.toHaveBeenCalled();
+    });
+
+    it('returns an archived patient before calling the API', async () => {
+      const archivedPatient = {
+        id: '1',
+        name: 'Archived Patient',
+        description: 'Desc',
+        website: 'https://example.com',
+        avatar: '',
+        createdAt: '2023-01-01'
+      };
+
+      localStorage.setItem('patient-records-archived-patients', JSON.stringify([archivedPatient]));
+      localStorage.setItem('patient-records-deleted-ids', JSON.stringify(['1']));
+
+      const result = await fetchPatientById('1');
+
+      expect(result).toEqual(archivedPatient);
+      expect(mockGet).not.toHaveBeenCalled();
+    });
+
+    it('removes local patients from localStorage when deleted', () => {
+      const localPatient = {
+        id: 'local-1',
+        name: 'Local Patient',
+        description: 'Desc',
+        website: 'https://example.com',
+        avatar: '',
+        createdAt: '2023-01-01'
+      };
+
+      localStorage.setItem('patient-records-local-updates', JSON.stringify([localPatient]));
+
+      deletePatientById(localPatient);
+
+      expect(JSON.parse(localStorage.getItem('patient-records-local-updates') || '[]')).toEqual([]);
+      expect(readArchivedPatients()).toEqual([localPatient]);
+    });
+
+    it('archives api patients when deleted', () => {
+      const apiPatient = {
+        id: '42',
+        name: 'API Patient',
+        description: 'Desc',
+        website: 'https://example.com',
+        avatar: '',
+        createdAt: '2023-01-01'
+      };
+
+      deletePatientById(apiPatient);
+
+      expect(JSON.parse(localStorage.getItem('patient-records-deleted-ids') || '[]')).toEqual(['42']);
+      expect(readArchivedPatients()).toEqual([apiPatient]);
     });
   });
 });

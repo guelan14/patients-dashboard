@@ -10,6 +10,8 @@ import { Button } from '../components/ui/Button/Button';
 import { Input } from '../components/ui/Input/Input';
 import { SearchIcon } from '../components/ui/Icons/Icons';
 import { Link } from 'react-router-dom';
+import { deletePatientById } from "../services/api";
+import { Modal } from '../components/ui/Modal/Modal';
 
 export function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +38,7 @@ export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [patientToArchive, setPatientToArchive] = useState<Patient | null>(null);
 
   const handleAdd = () => {
     setSelectedPatient(null);
@@ -45,6 +48,19 @@ export function Dashboard() {
   const handleEdit = (patient: Patient) => {
     setSelectedPatient(patient);
     setModalOpen(true);
+  };
+
+  const handleArchive = (patient: Patient) => {
+    setPatientToArchive(patient);
+  };
+
+  const confirmArchive = () => {
+    if (!patientToArchive) return;
+
+    deletePatientById(patientToArchive);
+    showToast('Patient archived successfully', 'success');
+    setPatientToArchive(null);
+    refresh();
   };
 
   const handleSave = (data: Omit<Patient, "id" | "createdAt">) => {
@@ -90,7 +106,7 @@ export function Dashboard() {
               variant="outline"
               className="whitespace-nowrap shrink-0 w-full sm:w-auto"
             >
-              Archived Patients
+              🗑️ Archived Patients
             </Button>
           </Link>
           <Button
@@ -129,6 +145,7 @@ export function Dashboard() {
           isFavorite={isFavorite}
           onToggleFavorite={toggleFavorite}
           onEdit={handleEdit}
+          onArchive={handleArchive}
           loading={loading}
         />
       )}
@@ -148,6 +165,27 @@ export function Dashboard() {
         onSave={handleSave}
         patient={selectedPatient}
       />
+
+      <Modal
+        isOpen={!!patientToArchive}
+        onClose={() => setPatientToArchive(null)}
+        title="Archive Patient"
+      >
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          Are you sure you want to archive this patient? You can restore it later from the Archived Patients section.
+        </p>
+        <div className="flex justify-end gap-3 mt-8">
+          <Button variant="outline" onClick={() => setPatientToArchive(null)}>
+            Cancel
+          </Button>
+          <Button
+            onClick={confirmArchive}
+            className="bg-red-500 hover:bg-red-600 text-white border-transparent"
+          >
+            Archive
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }

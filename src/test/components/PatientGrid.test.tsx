@@ -10,6 +10,7 @@ describe('PatientGrid', () => {
   ]
   const mockOnToggle = vi.fn()
   const mockOnEdit = vi.fn()
+  const mockOnArchive = vi.fn()
 
   it('renders skeletons when loading is true', () => {
     const { container } = render(
@@ -18,6 +19,7 @@ describe('PatientGrid', () => {
         isFavorite={() => false} 
         onToggleFavorite={mockOnToggle} 
         onEdit={mockOnEdit} 
+        onArchive={mockOnArchive}
         loading={true} 
       />,
       { wrapper: MemoryRouter }
@@ -33,6 +35,7 @@ describe('PatientGrid', () => {
         isFavorite={() => false} 
         onToggleFavorite={mockOnToggle} 
         onEdit={mockOnEdit} 
+        onArchive={mockOnArchive}
         loading={false} 
       />,
       { wrapper: MemoryRouter }

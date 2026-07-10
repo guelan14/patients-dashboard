@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { NavLink, Routes, Route } from 'react-router-dom';
 import { Dashboard } from './pages/Dashboard';
 import { ArchivedPatients } from './pages/ArchivedPatients';
 import { PatientDetails } from './pages/PatientDetails';
@@ -17,22 +17,38 @@ function App() {
     <ThemeProvider>
       <ToastProvider>
         <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-slate-900 transition-colors duration-200">
-        <header className="bg-black dark:bg-slate-950 text-white py-3 px-6 sticky top-0 z-40 flex items-center justify-between">
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="w-8 h-8 bg-white dark:bg-slate-800 rounded flex items-center justify-center text-black dark:text-white font-bold text-xl leading-none">
-              P
+        <header className="bg-black dark:bg-slate-950 text-white sticky top-0 z-40 border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  `inline-flex items-center px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-black shadow-sm'
+                      : 'border border-gray-700 text-white/90 hover:text-white hover:bg-gray-800 hover:scale-105 active:scale-95'
+                  }`
+                }
+                aria-label="Dashboard"
+              >
+                Dashboard
+              </NavLink>
             </div>
-            <span className="font-bold text-lg tracking-wide hidden sm:block">PatientsApp</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setIsSidebarOpen(true)}
-              className="cursor-pointer flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-700 hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-200 text-sm font-medium"
-              aria-label="Open favorites"
-            >
-              <span className="text-yellow-400">★</span> Favorites ({favorites.length})
-            </button>
-            <ThemeToggle />
+
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <button 
+                onClick={() => setIsSidebarOpen(true)}
+                className="cursor-pointer flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-gray-700 hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-200 text-xs sm:text-sm font-medium whitespace-nowrap"
+                aria-label="Open favorites"
+              >
+                <span className="text-yellow-400">★</span>
+                <span className="hidden sm:inline">Favorites</span>
+                <span>({favorites.length})</span>
+              </button>
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 

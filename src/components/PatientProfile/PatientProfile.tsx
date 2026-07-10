@@ -27,8 +27,7 @@ export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, 
         <div className="shrink-0 relative">
           <div className="absolute inset-0 bg-gradient-to-tr from-gray-200 to-gray-50 dark:from-slate-700 dark:to-slate-800 rounded-full blur-md opacity-70" />
           <div className="relative transform hover:scale-105 transition-transform duration-300">
-            {/* @ts-ignore */}
-            <Avatar name={patient.name} src={patient.avatar} size="lg" className="w-32 h-32 text-4xl border-4 border-white dark:border-slate-900 shadow-xl" />
+            <Avatar name={patient.name} src={patient.avatar} className="w-32 h-32 text-4xl border-4 border-white dark:border-slate-900 shadow-xl" />
           </div>
         </div>
         

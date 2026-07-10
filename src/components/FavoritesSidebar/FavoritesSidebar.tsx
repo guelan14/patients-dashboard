@@ -58,8 +58,7 @@ export function FavoritesSidebar({ isOpen, onClose }: FavoritesSidebarProps) {
                 className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors border border-transparent hover:border-gray-200/50 dark:hover:border-slate-700/50 group"
               >
                 <div className="shrink-0 group-hover:scale-105 transition-transform duration-300">
-                  {/* @ts-ignore */}
-                  <Avatar name={patient.name} src={patient.avatar} size="sm" />
+                  <Avatar name={patient.name} src={patient.avatar} className="w-10 h-10" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">

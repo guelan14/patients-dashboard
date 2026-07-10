@@ -2,7 +2,7 @@ import type { Patient } from '../../types/patient'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../ui/Avatar/Avatar'
 import { IconButton } from '../ui/IconButton/IconButton'
-import { EditIcon, StarIcon, ChevronDownIcon } from '../ui/Icons/Icons'
+import { EditIcon, StarIcon, TrashIcon, ChevronDownIcon } from '../ui/Icons/Icons'
 
 interface PatientCardHeaderProps {
   patient: Patient
@@ -10,6 +10,7 @@ interface PatientCardHeaderProps {
   expanded: boolean
   onToggleFavorite: (patient: Patient) => void
   onEdit?: (patient: Patient) => void
+  onArchive?: (patient: Patient) => void
   onToggleExpand: () => void
 }
 
@@ -19,6 +20,7 @@ export function PatientCardHeader({
   expanded,
   onToggleFavorite,
   onEdit,
+  onArchive,
   onToggleExpand,
 }: PatientCardHeaderProps) {
   return (
@@ -34,6 +36,14 @@ export function PatientCardHeader({
 
       <IconButton onClick={() => onEdit?.(patient)} aria-label="Edit patient">
         <EditIcon className="w-4 h-4" />
+      </IconButton>
+
+      <IconButton
+        onClick={() => onArchive?.(patient)}
+        aria-label="Archive patient"
+        className="text-gray-400 hover:text-red-600 dark:hover:text-red-500"
+      >
+        <TrashIcon className="w-4 h-4" />
       </IconButton>
 
       <IconButton

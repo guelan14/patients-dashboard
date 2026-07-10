@@ -37,10 +37,6 @@ export function ArchivedPatients() {
           <h1 className="text-3xl font-extrabold tracking-tight text-black dark:text-white">Archived Patients</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Search archived patients and restore them anytime.</p>
         </div>
-
-        <Link to="/">
-          <Button variant="outline" className="whitespace-nowrap">Back to Dashboard</Button>
-        </Link>
       </div>
 
       <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between border-b border-gray-200 dark:border-slate-700 pb-6">
@@ -71,7 +67,7 @@ export function ArchivedPatients() {
           {visibleArchivedPatients.map((patient) => (
             <article key={patient.id} className="rounded-3xl border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
               <div className="flex items-start gap-4">
-                <Avatar name={patient.name} src={patient.avatar} size="sm" />
+                <Avatar name={patient.name} src={patient.avatar} className="w-10 h-10" />
                 <div className="min-w-0 flex-1">
                   <Link to={`/patient/${patient.id}`} className="block hover:underline focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white rounded-sm">
                     <h3 className="font-bold text-black dark:text-white truncate">{patient.name}</h3>

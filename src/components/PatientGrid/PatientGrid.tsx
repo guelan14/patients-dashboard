@@ -7,6 +7,7 @@ interface PatientGridProps {
   isFavorite: (id: string) => boolean
   onToggleFavorite: (patient: Patient) => void
   onEdit: (patient: Patient) => void
+  onArchive: (patient: Patient) => void
   loading?: boolean
 }
 
@@ -15,6 +16,7 @@ export function PatientGrid({
   isFavorite,
   onToggleFavorite,
   onEdit,
+  onArchive,
   loading = false,
 }: PatientGridProps) {
   return (
@@ -26,6 +28,7 @@ export function PatientGrid({
           isFavorite={isFavorite(patient.id)}
           onToggleFavorite={onToggleFavorite}
           onEdit={onEdit}
+          onArchive={onArchive}
         />
       ))}
       {loading && Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}

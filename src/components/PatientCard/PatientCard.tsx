@@ -9,9 +9,10 @@ interface PatientCardProps {
   isFavorite: boolean
   onToggleFavorite: (patient: Patient) => void
   onEdit?: (patient: Patient) => void
+  onArchive?: (patient: Patient) => void
 }
 
-export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit }: PatientCardProps) {
+export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit, onArchive }: PatientCardProps) {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -22,6 +23,7 @@ export function PatientCard({ patient, isFavorite, onToggleFavorite, onEdit }: P
         expanded={expanded}
         onToggleFavorite={onToggleFavorite}
         onEdit={onEdit}
+        onArchive={onArchive}
         onToggleExpand={() => setExpanded(!expanded)}
       />
       <PatientCardBody

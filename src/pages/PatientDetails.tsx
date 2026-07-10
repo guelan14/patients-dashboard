@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Button } from '../components/ui/Button/Button';
 import { deletePatientById, fetchPatientById } from '../services/api';
 import type { Patient } from '../types/patient';
@@ -86,12 +86,6 @@ export function PatientDetails() {
   return (
     <>
       <div className="py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <Link to="/">
-          <Button variant="outline" className="mb-6 group hover:border-black dark:hover:border-white transition-colors">
-            <span className="inline-block transform group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Dashboard
-          </Button>
-        </Link>
-
         {loading ? <PatientProfileSkeleton /> : (patient && (
           <PatientProfile
             patient={patient}

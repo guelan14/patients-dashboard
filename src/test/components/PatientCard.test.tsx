@@ -20,6 +20,7 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
+        onArchive={() => {}}
       />,
       { wrapper: MemoryRouter }
     )
@@ -33,6 +34,7 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
+        onArchive={() => {}}
       />,
       { wrapper: MemoryRouter }
     )
@@ -46,6 +48,7 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={() => {}}
+        onArchive={() => {}}
       />,
       { wrapper: MemoryRouter }
     )
@@ -62,6 +65,7 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={mockToggle}
         onEdit={() => {}}
+        onArchive={() => {}}
       />,
       { wrapper: MemoryRouter }
     )
@@ -78,11 +82,29 @@ describe('PatientCard', () => {
         isFavorite={false}
         onToggleFavorite={() => {}}
         onEdit={mockEdit}
+        onArchive={() => {}}
       />,
       { wrapper: MemoryRouter }
     )
     const buttons = screen.getAllByRole('button')
     fireEvent.click(buttons[0])
     expect(mockEdit).toHaveBeenCalledWith(mockPatient)
+  })
+
+  it('calls onArchive when archive button clicked', () => {
+    const mockArchive = vi.fn()
+    render(
+      <PatientCard
+        patient={mockPatient}
+        isFavorite={false}
+        onToggleFavorite={() => {}}
+        onEdit={() => {}}
+        onArchive={mockArchive}
+      />,
+      { wrapper: MemoryRouter }
+    )
+    const buttons = screen.getAllByRole('button')
+    fireEvent.click(buttons[1])
+    expect(mockArchive).toHaveBeenCalledWith(mockPatient)
   })
 })

@@ -12,10 +12,12 @@ const meta = {
   args: {
     onToggleFavorite: () => {},
     onEdit: () => {},
+    onArchive: () => {},
   },
   argTypes: {
     onToggleFavorite: { action: 'toggled favorite' },
     onEdit: { action: 'clicked edit' },
+    onArchive: { action: 'clicked archive' },
   },
 } satisfies Meta<typeof PatientGrid>;
 

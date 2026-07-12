@@ -1,21 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { fetchPatients, generateNextLocalPatientId, readDeletedPatientIds } from "../services/api";
+import { fetchPatients, generateNextLocalPatientId, readDeletedPatientIds, readLocalPatients, persistLocalPatients } from "../services/api";
 import type { Patient } from "../types/patient";
-
-const STORAGE_KEY = "patient-records-local-updates";
-
-function readStoredPatients(): Patient[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
-}
-
-function persistStoredPatients(patients: Patient[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
-}
 
 function matchesSearch(patient: Patient, searchTerm: string) {
   const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -56,8 +41,8 @@ interface UsePatientsState {
 }
 
 export function usePatients(searchTerm: string = "") {
-  const initialStoredPatients = readStoredPatients();
-  const storedPatientsRef = useRef<Patient[]>(readStoredPatients());
+  const initialStoredPatients = readLocalPatients();
+  const storedPatientsRef = useRef<Patient[]>(readLocalPatients());
   const [state, setState] = useState<UsePatientsState>({
     patients: filterVisiblePatients(initialStoredPatients).filter((patient) => matchesSearch(patient, searchTerm)),
     loading: false,
@@ -68,7 +53,7 @@ export function usePatients(searchTerm: string = "") {
 
   const saveStoredPatients = useCallback((updater: (patients: Patient[]) => Patient[]) => {
     storedPatientsRef.current = updater(storedPatientsRef.current);
-    persistStoredPatients(storedPatientsRef.current);
+    persistLocalPatients(storedPatientsRef.current); // <-- Nueva función importada
   }, []);
 
   const loadPatients = useCallback(async (pageToLoad: number, search: string) => {
@@ -77,7 +62,7 @@ export function usePatients(searchTerm: string = "") {
     try {
       // Siempre leemos localStorage al cargar para asegurarnos de tener la lista
       // más actualizada, por si se borraron o modificaron pacientes externamente
-      storedPatientsRef.current = readStoredPatients();
+      storedPatientsRef.current = readLocalPatients();
 
       const data = await fetchPatients(pageToLoad, 9, search);
       const visibleApiPatients = filterVisiblePatients(data);
@@ -149,7 +134,7 @@ export function usePatients(searchTerm: string = "") {
   // sin esperar a que el servidor responda al refresh()
   useEffect(() => {
     const handleArchiveUpdate = () => {
-      storedPatientsRef.current = readStoredPatients();
+      storedPatientsRef.current = readLocalPatients();
       setState((prev) => {
         const visiblePatients = filterVisiblePatients(prev.patients).filter(p => {
           // Si es un paciente local, verificar que siga existiendo en local storage
@@ -161,7 +146,7 @@ export function usePatients(searchTerm: string = "") {
         return { ...prev, patients: visiblePatients };
       });
     };
-    
+
     window.addEventListener('patients-archive-updated', handleArchiveUpdate);
     return () => window.removeEventListener('patients-archive-updated', handleArchiveUpdate);
   }, []);

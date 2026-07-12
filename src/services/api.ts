@@ -68,6 +68,10 @@ export function isPatientDeleted(id: string) {
   return readDeletedPatientIds().includes(id);
 }
 
+export function isPatientArchived(id: string) {
+  return readArchivedPatients().some((patient) => patient.id === id);
+}
+
 export function markPatientDeleted(id: string) {
   const deletedIds = readDeletedPatientIds();
   if (!deletedIds.includes(id)) {

@@ -75,9 +75,14 @@ export function usePatients(searchTerm: string = "") {
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
+      // Siempre leemos localStorage al cargar para asegurarnos de tener la lista
+      // más actualizada, por si se borraron o modificaron pacientes externamente
+      storedPatientsRef.current = readStoredPatients();
+
       const data = await fetchPatients(pageToLoad, 9, search);
       const visibleApiPatients = filterVisiblePatients(data);
-      const mergedPatients = mergePatients(visibleApiPatients, storedPatientsRef.current, search);
+      const visibleStoredPatients = filterVisiblePatients(storedPatientsRef.current);
+      const mergedPatients = mergePatients(visibleApiPatients, visibleStoredPatients, search);
 
       setState((prev) => ({
         ...prev,
@@ -96,24 +101,28 @@ export function usePatients(searchTerm: string = "") {
     }
   }, []);
 
-  // When searchTerm changes, debounce for 300ms to avoid hammering the API while typing.
+  // When searchTerm changes, load patients.
+  // The debounce logic is now handled in the component consuming this hook.
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      loadPatients(1, searchTerm);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
+    loadPatients(1, searchTerm);
   }, [searchTerm, loadPatients]);
 
+  // Guardamos el estado actual en una ref para que los callbacks puedan
+  // leerlo sin necesidad de re-crear las funciones en cada render
+  // (especialmente cuando 'loading' o 'page' cambian a menudo).
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
   const loadMore = useCallback(() => {
-    if (!state.loading && state.hasMore) {
-      loadPatients(state.page + 1, searchTerm);
+    const { loading, hasMore, page } = stateRef.current;
+    if (!loading && hasMore) {
+      loadPatients(page + 1, searchTerm);
     }
-  }, [state.loading, state.hasMore, state.page, searchTerm, loadPatients]);
+  }, [searchTerm, loadPatients]);
 
   const refresh = useCallback(() => {
     loadPatients(1, searchTerm);
-  }, [loadPatients, searchTerm]);
+  }, [searchTerm, loadPatients]);
 
   const addPatient = useCallback((data: Omit<Patient, "id" | "createdAt">) => {
     const newPatient: Patient = {
@@ -135,6 +144,27 @@ export function usePatients(searchTerm: string = "") {
       patients: upsertPatient(prev.patients, updated),
     }));
   }, [saveStoredPatients]);
+
+  // Escuchar el evento de archivado para actualizar la UI instantáneamente
+  // sin esperar a que el servidor responda al refresh()
+  useEffect(() => {
+    const handleArchiveUpdate = () => {
+      storedPatientsRef.current = readStoredPatients();
+      setState((prev) => {
+        const visiblePatients = filterVisiblePatients(prev.patients).filter(p => {
+          // Si es un paciente local, verificar que siga existiendo en local storage
+          if (p.id.startsWith('local-')) {
+            return storedPatientsRef.current.some(stored => stored.id === p.id);
+          }
+          return true;
+        });
+        return { ...prev, patients: visiblePatients };
+      });
+    };
+    
+    window.addEventListener('patients-archive-updated', handleArchiveUpdate);
+    return () => window.removeEventListener('patients-archive-updated', handleArchiveUpdate);
+  }, []);
 
   return {
     ...state,

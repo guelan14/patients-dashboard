@@ -1,10 +1,14 @@
-import { renderHook, act } from '@testing-library/react'
+import { renderHook, act, waitFor } from '@testing-library/react'
 import { usePatients } from '../../hooks/usePatients'
 import { vi } from 'vitest'
 
-vi.mock('../../services/api', () => ({
-  fetchPatients: vi.fn(),
-}))
+vi.mock('../../services/api', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../services/api')>()
+  return {
+    ...actual,
+    fetchPatients: vi.fn(),
+  }
+})
 
 import { fetchPatients } from '../../services/api'
 
@@ -19,11 +23,16 @@ describe('usePatients', () => {
     localStorage.clear()
   })
 
-  it('starts with empty state', () => {
+  it('starts with empty state', async () => {
+    vi.mocked(fetchPatients).mockResolvedValue([])
     const { result } = renderHook(() => usePatients())
+    
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false)
+    })
+    
     expect(result.current.patients).toEqual([])
-    expect(result.current.loading).toBe(false)
-    expect(result.current.hasMore).toBe(true)
+    expect(result.current.hasMore).toBe(false)
   })
 
   it('loads patients on refresh', async () => {

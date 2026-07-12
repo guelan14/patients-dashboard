@@ -52,8 +52,15 @@ describe('ArchivedPatients', () => {
 
     render(<ArchivedPatients />, { wrapper: MemoryRouter })
 
-    const restoreButton = screen.getAllByRole('button', { name: 'Restore' })[0]
-    fireEvent.click(restoreButton)
+    // Click the card's restore button (which opens the confirmation modal)
+    const restoreButtons = screen.getAllByRole('button', { name: 'Restore' })
+    fireEvent.click(restoreButtons[0])
+
+    // Click the confirm button in the modal
+    const confirmButton = screen.getAllByRole('button', { name: 'Restore' }).find(
+      btn => btn.classList.contains('bg-green-500')
+    )
+    fireEvent.click(confirmButton!)
 
     expect(mockRestorePatient).toHaveBeenCalledWith('local-1')
     expect(mockShowToast).toHaveBeenCalledWith('Patient restored successfully', 'success')

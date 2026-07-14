@@ -6,8 +6,7 @@ A responsive and optimized frontend application designed to manage, search, edit
 
 ## Live Demo
 
-- **Deployment**: [Configure with your Vercel/Netlify URL]
-- **Storybook**: [Configure with your Storybook static hosting URL]
+- **Deployment**: https://patients-dashboard-seven.vercel.app/
 
 ---
 

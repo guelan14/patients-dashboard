@@ -143,6 +143,6 @@ describe('Dashboard', () => {
   it('shows a button to go to archived patients', () => {
     render(<Dashboard />, { wrapper: MemoryRouter })
 
-    expect(screen.getByRole('link', { name: 'Archived Patients' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Archived Patients/i })).toBeInTheDocument()
   })
 })

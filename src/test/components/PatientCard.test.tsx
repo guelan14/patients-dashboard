@@ -69,8 +69,8 @@ describe('PatientCard', () => {
       />,
       { wrapper: MemoryRouter }
     )
-    const buttons = screen.getAllByRole('button')
-    fireEvent.click(buttons[1])
+    const favoriteButton = screen.getByLabelText('Toggle favorite')
+    fireEvent.click(favoriteButton)
     expect(mockToggle).toHaveBeenCalledWith(mockPatient)
   })
 
@@ -86,8 +86,8 @@ describe('PatientCard', () => {
       />,
       { wrapper: MemoryRouter }
     )
-    const buttons = screen.getAllByRole('button')
-    fireEvent.click(buttons[0])
+    const editButton = screen.getByLabelText('Edit patient')
+    fireEvent.click(editButton)
     expect(mockEdit).toHaveBeenCalledWith(mockPatient)
   })
 
@@ -103,8 +103,8 @@ describe('PatientCard', () => {
       />,
       { wrapper: MemoryRouter }
     )
-    const buttons = screen.getAllByRole('button')
-    fireEvent.click(buttons[1])
+    const archiveButton = screen.getByLabelText('Archive patient')
+    fireEvent.click(archiveButton)
     expect(mockArchive).toHaveBeenCalledWith(mockPatient)
   })
 })

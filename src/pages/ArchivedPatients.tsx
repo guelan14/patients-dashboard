@@ -6,9 +6,11 @@ import { Button } from '../components/ui/Button/Button';
 import { Input } from '../components/ui/Input/Input';
 import { SearchIcon } from '../components/ui/Icons/Icons';
 import { useToast } from '../hooks/useToast';
+import { Modal } from '../components/ui/Modal/Modal';
 
 export function ArchivedPatients() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [patientToRestore, setPatientToRestore] = useState<string | null>(null);
   const { archivedPatients, restorePatient } = useArchivedPatients();
   const { showToast } = useToast();
 
@@ -23,11 +25,19 @@ export function ArchivedPatients() {
   }, [archivedPatients, searchTerm]);
 
   const handleRestore = (patientId: string) => {
-    const restored = restorePatient(patientId);
+    setPatientToRestore(patientId);
+  };
+
+  const confirmRestore = () => {
+    if (!patientToRestore) return;
+    
+    const restored = restorePatient(patientToRestore);
 
     if (restored) {
       showToast('Patient restored successfully', 'success');
     }
+    
+    setPatientToRestore(null);
   };
 
   return (
@@ -86,6 +96,27 @@ export function ArchivedPatients() {
           ))}
         </div>
       )}
+
+      <Modal
+        isOpen={!!patientToRestore}
+        onClose={() => setPatientToRestore(null)}
+        title="Restore Patient"
+      >
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          Are you sure you want to restore this patient to the main list?
+        </p>
+        <div className="flex justify-end gap-3 mt-8">
+          <Button variant="outline" onClick={() => setPatientToRestore(null)}>
+            Cancel
+          </Button>
+          <Button
+            onClick={confirmRestore}
+            className="bg-green-500 hover:bg-green-600 text-white border-transparent"
+          >
+            Restore
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

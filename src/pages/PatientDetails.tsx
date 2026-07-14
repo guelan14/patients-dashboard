@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '../components/ui/Button/Button';
-import { deletePatientById, fetchPatientById } from '../services/api';
+import { deletePatientById, fetchPatientById, restoreArchivedPatient, isPatientArchived } from '../services/api';
 import type { Patient } from '../types/patient';
 import { ErrorMessage } from '../components/ui/ErrorMessage/ErrorMessage';
 import { PatientProfile } from '../components/PatientProfile/PatientProfile';
@@ -19,7 +19,7 @@ export function PatientDetails() {
 
   const { isFavorite, toggleFavorite } = useFavorites();
   const [modalOpen, setModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -51,20 +51,34 @@ export function PatientDetails() {
     setModalOpen(true);
   };
 
-  const confirmDelete = () => {
-    if (patient) {
+  const isArchived = patient ? isPatientArchived(patient.id) : false;
+
+  const confirmAction = () => {
+    if (!patient) return;
+    
+    if (isArchived) {
+      restoreArchivedPatient(patient.id);
+      showToast("Patient restored successfully", "success");
+      setIsConfirmModalOpen(false);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
+    } else {
       deletePatientById(patient);
+      showToast("Patient archived successfully", "success");
+      setIsConfirmModalOpen(false);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
     }
-    setIsDeleteModalOpen(false);
-    showToast("Patient archived successfully", "success");
-    // Simulate API delay
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 1000);
   };
 
   const handleDelete = () => {
-    setIsDeleteModalOpen(true);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleRestore = () => {
+    setIsConfirmModalOpen(true);
   };
 
   const handleSave = (data: Omit<Patient, "id" | "createdAt">) => {
@@ -90,9 +104,11 @@ export function PatientDetails() {
           <PatientProfile
             patient={patient}
             isFavorite={isFavorite(patient.id)}
+            isArchived={isArchived}
             onToggleFavorite={toggleFavorite}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onRestore={handleRestore}
           />
         ))}
       </div>
@@ -105,22 +121,24 @@ export function PatientDetails() {
       />
 
       <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        title="Archive Patient"
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        title={isArchived ? "Restore Patient" : "Archive Patient"}
       >
         <p className="text-gray-700 dark:text-gray-300 mb-6">
-          Are you sure you want to archive this patient? You can restore it later from the Archived Patients section.
+          {isArchived
+            ? "Are you sure you want to restore this patient to the main list?"
+            : "Are you sure you want to archive this patient? You can restore it later from the Archived Patients section."}
         </p>
         <div className="flex justify-end gap-3 mt-8">
-          <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
+          <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)}>
             Cancel
           </Button>
           <Button
-            onClick={confirmDelete}
-            className="bg-red-500 hover:bg-red-600 text-white border-transparent"
+            onClick={confirmAction}
+            className={isArchived ? "bg-green-500 hover:bg-green-600 text-white border-transparent" : "bg-red-500 hover:bg-red-600 text-white border-transparent"}
           >
-            Archive
+            {isArchived ? "Restore" : "Archive"}
           </Button>
         </div>
       </Modal>

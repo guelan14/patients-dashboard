@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usePatients } from "../hooks/usePatients";
+import { useDebounce } from "../hooks/useDebounce";
 import { useFavorites } from "../hooks/useFavorites";
 import { PatientModal } from "../components/PatientModal/PatientModal";
 import type { Patient } from "../types/patient";
@@ -15,6 +16,7 @@ import { Modal } from '../components/ui/Modal/Modal';
 
 export function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
+  const searchTermDebounced = useDebounce(searchTerm, 300);
 
   const {
     patients,
@@ -25,7 +27,7 @@ export function Dashboard() {
     refresh,
     addPatient,
     updatePatient,
-  } = usePatients(searchTerm);
+  } = usePatients(searchTermDebounced);
 
   const { triggerRef } = useInfiniteScroll({
     onLoadMore: loadMore,

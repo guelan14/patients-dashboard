@@ -6,12 +6,14 @@ import { StarIcon, EditIcon, TrashIcon } from '../ui/Icons/Icons';
 interface PatientProfileProps {
   patient: Patient;
   isFavorite?: boolean;
+  isArchived?: boolean;
   onToggleFavorite?: (patient: Patient) => void;
   onEdit?: (patient: Patient) => void;
   onDelete?: (patient: Patient) => void;
+  onRestore?: (patient: Patient) => void;
 }
 
-export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, onEdit, onDelete }: PatientProfileProps) {
+export function PatientProfile({ patient, isFavorite = false, isArchived = false, onToggleFavorite, onEdit, onDelete, onRestore }: PatientProfileProps) {
   const formattedDate = new Date(patient.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -56,10 +58,18 @@ export function PatientProfile({ patient, isFavorite = false, onToggleFavorite, 
                   </IconButton>
                 )}
 
-                {onDelete && (
-                  <IconButton onClick={() => onDelete(patient)} aria-label="Archive patient">
-                    <TrashIcon className="w-6 h-6 text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors" />
-                  </IconButton>
+                {isArchived ? (
+                  onRestore && (
+                    <IconButton onClick={() => onRestore(patient)} aria-label="Restore patient">
+                      <svg className="w-6 h-6 text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
+                    </IconButton>
+                  )
+                ) : (
+                  onDelete && (
+                    <IconButton onClick={() => onDelete(patient)} aria-label="Archive patient">
+                      <TrashIcon className="w-6 h-6 text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors" />
+                    </IconButton>
+                  )
                 )}
               </div>
             </div>
